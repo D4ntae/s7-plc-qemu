@@ -42,12 +42,18 @@
 #include "qemu/module.h"
 #include "hw/core/generic-loader.h"
 #include "exec/memory.h"
+#include "hw/pci/pci.h"
+#include "qemu/error-report.h"
 
 #define CPU_NONE 0xFFFFFFFF
 
 static void generic_loader_reset(void *opaque)
 {
     GenericLoaderState *s = GENERIC_LOADER(opaque);
+
+    if (s->file) {
+        error_printf_unless_qmp("called generic_loader_reset for file %s addr %ld data_len %d\n", s->file, s->addr, s->data_len);
+    }
 
     if (s->set_pc) {
         CPUClass *cc = CPU_GET_CLASS(s->cpu);
@@ -70,8 +76,16 @@ static void generic_loader_reset(void *opaque)
         attrs.requester_id = s->attrs.requester_id;
 
         assert(s->data_len <= sizeof(s->data));
-        address_space_rw(s->cpu->as, s->addr, attrs, (uint8_t *)&s->data,
+        MemTxResult res = address_space_rw(s->cpu->as, s->addr, attrs, (uint8_t *)&s->data,
                          s->data_len, true);
+        if (s->file) error_printf_unless_qmp("called generic_loader_reset for file %s addr %ld return value %d \n", s->file, s->addr, res);
+    }
+
+    if (phase_check(PHASE_MACHINE_READY)) {
+        if (s->file) {
+            error_printf_unless_qmp("calling generic_loader_reset for file %s\n", s->file);
+        }
+        //generic_loader_reset(dev);
     }
 }
 

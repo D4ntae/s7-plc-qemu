@@ -828,7 +828,7 @@ void cpu_address_space_init(CPUState *cpu, int asidx,
                             const char *prefix, MemoryRegion *mr)
 {
     CPUAddressSpace *newas;
-    AddressSpace *as = g_new0(AddressSpace, 1);
+    AddressSpace *as = &address_space_memory;
     char *as_name;
 
     assert(mr);

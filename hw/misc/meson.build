@@ -301,6 +301,12 @@ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_cmgcr.c', 'mips_cp
 specific_ss.add(when: 'CONFIG_MIPS_ITU', if_true: files('mips_itu.c'))
 
 specific_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
+# Custom
+softmmu_ss.add(when: 'CONFIG_PLC_IOC', if_true: files('plc_ioc.c'))
+softmmu_ss.add(when: 'CONFIG_PLC_WATCHDOG', if_true: files('plc_watchdog.c'))
+softmmu_ss.add(when: 'CONFIG_PLC_80280000', if_true: files('plc_80280000.c'))
+softmmu_ss.add(when: 'CONFIG_PLC_TIMER_fffbb0ac', if_true: files('plc_timer_fffbb0ac.c'))
+softmmu_ss.add(when: 'CONFIG_PLC_FW_COPY', if_true: files('plc_fw_copy.c'))
 
 # HPPA devices
 softmmu_ss.add(when: 'CONFIG_LASI', if_true: files('lasi.c'))

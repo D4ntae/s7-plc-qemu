@@ -1,3 +1,18 @@
+config PLC_IOC
+    bool
+
+config PLC_WATCHDOG
+    bool
+
+config PLC_80280000
+    bool
+
+config PLC_TIMER_fffbb0ac
+    bool
+
+config PLC_FW_COPY
+    bool
+
 config APPLESMC
     bool
     depends on ISA_BUS
