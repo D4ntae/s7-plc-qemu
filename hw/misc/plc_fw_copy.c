@@ -76,6 +76,6 @@ type_init(plc_fw_copy_register_types)
 DeviceState *plc_fw_copy_create(hwaddr addr) {
     DeviceState *dev = qdev_new(TYPE_PLC_FW_COPY);
     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0x40, addr);
     return dev;
 } 

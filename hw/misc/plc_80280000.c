@@ -17,7 +17,7 @@ DECLARE_INSTANCE_CHECKER(PLC80280000State, PLC_80280000, TYPE_PLC_80280000)
 #define REG_ID    0x0
 #define CHIP_ID    0xBA000001
 
-#define EXEC_IN_LOMEM_FILENAME "/home/dantae/repos/s7-plc-qemu/binaries/exec_in_lomem.fw"
+#define EXEC_IN_LOMEM_FILENAME "/home/dantae/repos/s7-plc-qemu/binaries/exec_in_lomem.fw.rev"
 #define CORTEX_R5_CPU_NUM 4
 #define MAX_FILE_SIZE 30720
 int copied = 0;

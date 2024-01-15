@@ -6,6 +6,7 @@ The build process
 
 Download the bootloader and firmware binaries from this link: https://mega.nz/folder/Sr5D0BaK#d6AvUZgDgI69LmYE0qvVwA and put them in the root directory of this repo. The update the file hw/misc/plc_80280000.c and change the EXEC_IN_LOMEM_FILENAME macro to the full path to the exec_in_lomem.fw binary.
 
+From the firmware file the first 64 bytes need to be cut.
 
 To run the emulator run the command
 .. code_block:: shell
