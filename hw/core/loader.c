@@ -933,16 +933,8 @@ static void rom_insert(Rom *rom)
      */
 
     /* The user didn't specify an address space, this is the default */
-    if (!rom->as) {
-        rom->as = &address_space_memory;
-
-        /* Xilinx: Use the first CPU address space instead of
-         * &address_space_memory.
-         */
-        if (first_cpu && first_cpu->as) {
-            rom->as = first_cpu->as;
-        }
-    }
+    
+    rom->as = &address_space_memory;
 
     rom->committed = false;
 

@@ -38,11 +38,11 @@
 #include "hw/boards.h"
 #include "hw/loader.h"
 #include "hw/qdev-properties.h"
+#include "hw/pci/pci.h"
 #include "qapi/error.h"
 #include "qemu/module.h"
 #include "hw/core/generic-loader.h"
 #include "exec/memory.h"
-#include "hw/pci/pci.h"
 #include "qemu/error-report.h"
 
 #define CPU_NONE 0xFFFFFFFF
@@ -61,7 +61,7 @@ static void generic_loader_reset(void *opaque)
         if (cc) {
             cc->set_pc(s->cpu, s->addr);
         }
-    }
+   }
 
     if (s->data_len) {
         MemTxAttrs attrs = { .unspecified = 0,
