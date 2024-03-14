@@ -14,6 +14,8 @@ Cut bootloader size to 0x40000 beacause otherwise the memory regions overlap and
 From the firmware file the first 64 bytes need to be cut.
 In the bootloader file on addresses 0x230, 0x23c, 0x244 4 bytes need to be replaced with 0.
 
+Instruction at 0x368 in exec_in_lomem.rev was changed to DE0000EA. This is probably bad but works for now.
+
 To run the emulator run the command
 .. code-block:: shell
 
