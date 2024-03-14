@@ -1,5 +1,5 @@
 The build process
-.. code_block:: shell
+.. code-block:: shell
 
   mkdir build && cd build
   ../configure --target-list="aarch64-softmmu" --enable-fdt --disable-kvm --disable-xen --enable-gcrypt --disable-werror
@@ -8,13 +8,15 @@ The build process
 Download the bootloader and firmware binaries from this link: https://mega.nz/folder/Sr5D0BaK#d6AvUZgDgI69LmYE0qvVwA and put them in the root directory of this repo. The update the file hw/misc/plc_80280000.c and change the EXEC_IN_LOMEM_FILENAME macro to the full path to the exec_in_lomem.fw binary.
 
 Cut bootloader size to 0x40000 beacause otherwise the memory regions overlap and the bootloader is not loaded.
-.. code_block:: shell
+.. code-block:: shell
+
   dd if=bootloader.rev of=bootloader.rev.cut bs=1 count=262144
 From the firmware file the first 64 bytes need to be cut.
 In the bootloader file on addresses 0x230, 0x23c, 0x244 4 bytes need to be replaced with 0.
 
 To run the emulator run the command
-.. code_block:: shell
+.. code-block:: shell
+
   ./build/aarch64-softmmu/qemu-system-aarch64 -M arm-generic-fdt -serial mon:stdio -device loader,file=./binaries/4.5.2.fw-no-start.rev,addr=0x40000,cpu-num=4,force-raw=true -device loader,file=./binaries/4.5.2.boot.rev,addr=0x0 -device loader,addr=0XFF5E023C,data=0x80088fde,data-len=4 -device loader,addr=0xff9a0000,data=0x80000218,data-len=4 -hw-dtb ./binaries/board-zynqmp-zcu1285.dtb -m 4G -singlestep -d in_asm,nochain -s > log.txt
 
 ===========
