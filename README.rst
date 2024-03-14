@@ -10,6 +10,7 @@ Cut bootloader size to 0x40000 beacause otherwise the memory regions overlap and
 .. code_block:: shell
   dd if=bootloader.rev of=bootloader.rev.cut bs=1 count=262144
 From the firmware file the first 64 bytes need to be cut.
+In the bootloader file on addresses 0x230, 0x23c, 0x244 4 bytes need to be replaced with 0.
 
 To run the emulator run the command
 .. code_block:: shell
