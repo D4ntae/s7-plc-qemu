@@ -1,5 +1,6 @@
 The build process
 .. code_block:: shell
+
   mkdir build && cd build
   ../configure --target-list="aarch64-softmmu" --enable-fdt --disable-kvm --disable-xen --enable-gcrypt --disable-werror
   make -j$(nproc)
