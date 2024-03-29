@@ -111,7 +111,24 @@ done
 #### Firmware structure
 The contents of the firmware on the NAND chip can be separated into 3 distinct areas - the first 0x40 bytes containing the header with firmware metadata, the following 0x8000 bytes which make up the .exec_in_lomem section, and the rest of the firmware, the size of which varies, but is around 0x1100000 bytes. On the actual PLC, its bootloader has the role of copying the firmware from the NAND chip on the PLC to RAM and ITCM. From these 3 areas, only the latter 2 will be copied to RAM and ITCM. For emulation purposes, RAM and ITCM can be understood to be one and the same and shall be collectively referred to as simply RAM. The following image shows how the bootloader copies the contents of the chip to RAM.
 
-![Memory layout]()
+![alt text](https://raw.githubusercontent.com/D4ntae/s7-plc-qemu/master/assets/memory_layout.jpeg "Memory Layout")
+
+We need to emulate this (that is, copying the firmware to RAM) behavior. To do this, one needs to separate the different parts of the firmware update file - throw out the first 0x40 bytes (the header), save the next 0x8000 bytes in one file (exec_in_lomem), and finally save the rest in another file (main_firmware). The exec_in_lomem section is manually copied over a part of the bootloader code at address 0x0 once the bootloader itself is finished with its execution. The main_firmware section, which contains most of the firmware logic, is loaded to address 0x40000 using QEMU’s device loader.
+
+#### Setting up the firmware for emulation
+###### Seperating the firmware into two files
+As stated in the Firmware structure section we need to split the firmware into two files, the exec_in_lomem file and the main firmware file. We also need to remove the header from the firmware file.
+```shell
+# Remove header
+dd if=firmware skip=64 bs=1 of=firmware.no_head
+
+# Remove exec_in_lomem part
+dd if=firmware.no_head count=32768 bs=1 of=exec_in_lomem.lo
+
+# Only the main firmware
+dd if=firmware.no_head skip=32768 bs=1 of=main.fw
+```
+
 
 <a id="running_the_emulator"><a/>
 ## Running the emulator
