@@ -15,13 +15,16 @@ This repository builds on the fork by adding custom QEMU devices that the Siemen
 ## Quickstart
 #### Preface
 All the scripts listed here expect the firmware version 4.5.2 (provided in the link) and the bootloader provided in the link. No guarantees are made that this will work for any other version. If you want it to work for a different version check out the in depth description of the setup and adjust it for you version.
-#### 1. Clone this repo
+#### 1. Clone this repo and install dependencies
 ```shell
 # HTTPS
 git clone https://github.com/D4ntae/s7-plc-qemu.git
 
 # SSH
 git clone git@github.com:D4ntae/s7-plc-qemu.git
+
+Dependency list (might differ based on distribution)
+> gcc g++ make ninja-build glib2-devel pixman-devel libgcrypt-devel qemu git
 ```
 #### 2. Download the firmware
 Official download link
