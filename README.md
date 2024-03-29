@@ -51,11 +51,26 @@ If you want more info on extracting the bootloader from the PLC directly take a 
 
 #### 5. Setting up the firmware file
 There is quite an extensive setup needed to get the firmware ready for emulation and this setup is explained more in depth in the [Firmware](#firmware) section. However there is a convenience script proveded in the helpers directory of this repository `setup_fw.sh`. The use the script pass in the path to the raw firmware file as the first argument. This will create a ready to use firmware file in the ./binaries directory and modify the necessary files to run the emulator. 
+```shell
+# Usage
+helpers/setup_fw.sh <path_to_raw_firmware_file>
+
+# Example
+helpers/setup_fw.sh ~/Downloads/4.5.2.fw
+```
 
 **Note**: The script works non desctructively and as such does a lot of copying of files. So it might seem like its hanging at certain parts but thats normal let it work.
 
 #### 6. Setting up the bootloader file
 As with the firmware there is setup required to get the bootloader ready for emulation. The in depth breakdown can be seen in the [Bootloader](#bootloader) section. Once again there is a convenience script `setup_bl.sh` that requires the path to the raw bootloader file (either from the link or the PLC). The ready to use bootloader file will be located in the ./binaries directory. 
+
+```shell
+# Usage
+helpers/setup_bl.sh <path_to_raw_bootloader_file>
+
+# Example
+helpers/setup_bl.sh ~/Downloads/4.5.2.boot
+```
 
 **Note**: The script works non desctructively and as such does a lot of copying of files. So it might seem like its hanging at certain parts but thats normal let it work.
 
@@ -80,6 +95,9 @@ To execute the emulator run the below command or use the helper script `run_emul
     -hw-dtb ./binaries/board-zynqmp-zcu1285.dtb \
     -m 4G -singlestep -d in_asm,nochain -s 2>&1 | tee -a log.txt
 ```
+
+#### 9. Understanding the output
+If everything went according to plan the you should see in your terminal instructions executing and a qemu window pop up. These instruction are also saved to a file log.txt. Instructions in the address range from 0-0x15000 are generally in the bootloader except in the later stages where the instructions from 0-0x8000 are from exec_in_lomem. Instructions in the range > 0x40000 are firmware instructions. If you see the emulator going to and instruction range beginning with 0xff that means an exception has occured in execution.
 
 ## Bootloader
 #### Getting the bootloader from the chip
