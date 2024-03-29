@@ -2,6 +2,8 @@
 
 file="$1"
 dir=$(dirname "$0")
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." &>/dev/null && pwd)"
+offsets=(0x1b8 0x230 0x23c 0x244);
 if [[ -z "$file" ]]; then
     echo "Usage: setup_bl.sh <path_to_bootloader>"
     exit 1
@@ -27,7 +29,6 @@ else
 fi
 
 echo "[i] Removing processor specific instructions"
-offsets=(0x230 0x23c 0x244);
 for i in ${offsets[@]}
 do
     printf '\x00\x00\x00\x00' | dd of=/tmp/bootloader.cut.rev seek=$((i)) bs=1 conv=notrunc
@@ -41,7 +42,7 @@ else
     exit 1
 fi
 
-mv /tmp/bootloader.cut.rev $dir/../binaries/bootloader
+mv /tmp/bootloader.cut.rev $ROOT_DIR/binaries/bootloader
 if [ $? -eq 0 ];then
     echo "[+] Completed"
 else

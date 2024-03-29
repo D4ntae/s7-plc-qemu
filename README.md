@@ -97,9 +97,10 @@ Our qemu emulator only supports little endian instructions however the processor
 ```
 
 ###### Replacing broken instructions
-As the qemu emulator we have is based on the Cortex R5 and our bootloader is written for the Cortex R4 there are processor specific instructions which break execution when reached. Such instructions are the MCR and MRC instructions which deal with the coproccesor ([ARM Documentation](https://developer.arm.com/documentation/dui0068/b/ARM-Instruction-Reference/ARM-coprocessor-instructions/MCR--MCR2--MCRR)). These instructions will be overwritten with NOP (mov r0, r0, r0) instructions so that the emulation can continue. The locations of these instructions shouldn't change however the locations given are for the version provided at the [link](https://mega.nz/file/zjQTibzB#km4ryb6QBF8qnA8mk50FdkTwyZSyCo5efLDW43ZR1dI) and are located at 0x230, 0x23c and 0x244. The command to replace the values.
+As the qemu emulator we have is based on the Cortex R5 and our bootloader is written for the Cortex R4 there are processor specific instructions which break execution when reached. Such instructions are the MCR and MRC instructions which deal with the coproccesor ([ARM Documentation](https://developer.arm.com/documentation/dui0068/b/ARM-Instruction-Reference/ARM-coprocessor-instructions/MCR--MCR2--MCRR)). These instructions will be overwritten with NOP (mov r0, r0, r0) instructions so that the emulation can continue. The locations of these instructions shouldn't change however the locations given are for the version provided at the [link](https://mega.nz/file/zjQTibzB#km4ryb6QBF8qnA8mk50FdkTwyZSyCo5efLDW43ZR1dI) and are located at 0x230, 0x23c and 0x244. Another instruction that breaks is the setend be instruction which sets the processor to big endian mode. This is an instruction our processor cannot execute and so it needs to be NOPed. The instruction is located at 0x1b8.
+The command to replace the values.
 ```shell
-offsets=(0x230 0x23c 0x244);
+offsets=(0x1b8 0x230 0x23c 0x244);
 for i in ${offsets[@]}
 do
     printf '\x00\x00\x00\x00' | dd of=bootloader seek=$((i)) bs=1 conv=notrunc
@@ -129,9 +130,16 @@ dd if=firmware.no_head count=32768 bs=1 of=exec_in_lomem.lo
 dd if=firmware.no_head skip=32768 bs=1 of=main.fw
 ```
 
+###### Updating the path to the exec_in_lomem file
+The exec_in_lomem file is explained above and now we need to setup the device that will copy it into memory. That device is defined in hw/misc/plc_80280000.c and the define macro EXEC_IN_LOMEM_FILENAME needs to be set to the full path to the exec_in_lomem file.
+```c
+#define EXEC_IN_LOMEM_FILE '/home/user/s7-plc-qemu/binaries/exec_in_lomem.lo'
+```
+
 
 <a id="running_the_emulator"><a/>
 ## Running the emulator
+#### 
 
 Download the bootloader and firmware binaries from this link:
 <https://mega.nz/folder/Sr5D0BaK#d6AvUZgDgI69LmYE0qvVwA> and put them in
