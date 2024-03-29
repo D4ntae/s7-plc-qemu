@@ -10,9 +10,19 @@ This repository builds on the fork by adding custom QEMU devices that the Siemen
 - [Build](#build)
 - [Bootloader](#bootloader)
 - [Firmware](#firmware)
+- [QEMU Readme](#qemu_readme)
 
 ## Quickstart
+#### Preface
+All the scripts listed here expect the firmware version 4.5.2 (provided in the link) and the bootloader provided in the link. No guarantees are made that this will work for any other version. If you want it to work for a different version check out the in depth description of the setup and adjust it for you version.
 #### 1. Clone this repo
+```shell
+# HTTPS
+git clone https://github.com/D4ntae/s7-plc-qemu.git
+
+# SSH
+git clone git@github.com:D4ntae/s7-plc-qemu.git
+```
 #### 2. Download the firmware
 Official download link
 > https://support.industry.siemens.com/cs/attachments/107539957/6ES7_212-1BE40-0XB0_V04.05.02.zip
@@ -40,10 +50,14 @@ The download link for the already extracted raw bootload
 If you want more info on extracting the bootloader from the PLC directly take a look at the [Bootloader](#bootloader) section.
 
 #### 5. Setting up the firmware file
-There is quite an extensive setup needed to get the firmware ready for emulation and this setup is explained more in depth in the [Firmware](#firmware) section. However there is a convenience script proveded in the helpers directory of this repository `setup_fw.sh`. The use the script pass in the path to the raw firmware file as the first argument. This will create a ready to use firmware file in the ./binaries directory and modify the necessary files to run the emulator.
+There is quite an extensive setup needed to get the firmware ready for emulation and this setup is explained more in depth in the [Firmware](#firmware) section. However there is a convenience script proveded in the helpers directory of this repository `setup_fw.sh`. The use the script pass in the path to the raw firmware file as the first argument. This will create a ready to use firmware file in the ./binaries directory and modify the necessary files to run the emulator. 
+
+**Note**: The script works non desctructively and as such does a lot of copying of files. So it might seem like its hanging at certain parts but thats normal let it work.
 
 #### 6. Setting up the bootloader file
-As with the firmware there is setup required to get the bootloader ready for emulation. The in depth breakdown can be seen in the [Bootloader](#bootloader) section. Once again there is a convenience script `setup_bl.sh` that requires the path to the raw bootloader file (either from the link or the PLC). The ready to use bootloader file will be located in the ./binaries directory.
+As with the firmware there is setup required to get the bootloader ready for emulation. The in depth breakdown can be seen in the [Bootloader](#bootloader) section. Once again there is a convenience script `setup_bl.sh` that requires the path to the raw bootloader file (either from the link or the PLC). The ready to use bootloader file will be located in the ./binaries directory. 
+
+**Note**: The script works non desctructively and as such does a lot of copying of files. So it might seem like its hanging at certain parts but thats normal let it work.
 
 #### 7. Build the emulator 
 Run the below commands or use the helper script `build_emulator.sh`.
@@ -139,7 +153,7 @@ The exec_in_lomem file is explained above and now we need to setup the device th
 
 <a id="running_the_emulator"><a/>
 ## Running the emulator
-#### 
+#### OLD README, WILL BE REMOVED SOON 
 
 Download the bootloader and firmware binaries from this link:
 <https://mega.nz/folder/Sr5D0BaK#d6AvUZgDgI69LmYE0qvVwA> and put them in
@@ -170,6 +184,7 @@ To run the emulator run the command .. code-block:: shell
 > ./binaries/board-zynqmp-zcu1285.dtb -m 4G -singlestep -d
 > in_asm,nochain -s \> log.txt
 
+<a id="qemu_readme"></a>
 # QEMU README
 
 QEMU is a generic and open source machine & userspace emulator and

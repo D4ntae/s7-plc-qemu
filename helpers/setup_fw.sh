@@ -70,7 +70,7 @@ else
 fi
 
 echo "[i] Updating driver file with correct file path"
-sed -i "s|#define EXEC_IN_LOMEM_FILENAME .*|#define EXEC_IN_LOMEM_FILENAME '$ROOT_DIR/binaries/exec_in_lomem.lo'|" $ROOT_DIR/hw/misc/plc_80280000.c
+sed -i "s|#define EXEC_IN_LOMEM_FILENAME .*|#define EXEC_IN_LOMEM_FILENAME \"$ROOT_DIR/binaries/exec_in_lomem.lo\"|" $ROOT_DIR/hw/misc/plc_80280000.c
 
 if [ $? -eq 0 ];then
     echo "[+] Finished setting up firmware."

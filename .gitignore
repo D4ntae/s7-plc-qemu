@@ -16,5 +16,7 @@ GTAGS
 *.swp
 *.patch
 *.gcov
-/binaries
+/binaries/main.fw
+/binaries/exec_in_lomem.lo
+/binaries/bootloader
 /.cache
