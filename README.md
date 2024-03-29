@@ -23,9 +23,9 @@ git clone https://github.com/D4ntae/s7-plc-qemu.git
 # SSH
 git clone git@github.com:D4ntae/s7-plc-qemu.git
 
+```
 Dependency list (might differ based on distribution)
 > gcc g++ make ninja-build glib2-devel pixman-devel libgcrypt-devel qemu git
-```
 #### 2. Download the firmware
 Official download link
 > https://support.industry.siemens.com/cs/attachments/107539957/6ES7_212-1BE40-0XB0_V04.05.02.zip
