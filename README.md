@@ -46,9 +46,8 @@ python fw_decompress.py <input.upd> <output.fw>
 python fw_decompress.py '6ES7 214-1AG40-0XB0 V04.01.02.upd' 4.5.2.fw
 ```
 
-#### 4. Downloading the bootloader
-The download link for the already extracted raw bootload 
-> https://mega.nz/file/zjQTibzB#km4ryb6QBF8qnA8mk50FdkTwyZSyCo5efLDW43ZR1dI
+#### 4. Getting the bootloader
+If you want the bootloader file contact me directly.
 
 If you want more info on extracting the bootloader from the PLC directly take a look at the [Bootloader](#bootloader) section.
 
