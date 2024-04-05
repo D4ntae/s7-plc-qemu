@@ -20,3 +20,4 @@ GTAGS
 /binaries/exec_in_lomem.lo
 /binaries/bootloader
 /.cache
+log.txt
