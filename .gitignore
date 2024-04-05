@@ -21,3 +21,5 @@ GTAGS
 /binaries/bootloader
 /.cache
 log.txt
+functions_calls.log
+.gdb_history

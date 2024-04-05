@@ -8,6 +8,7 @@ This repository builds on the fork by adding custom QEMU devices that the Siemen
 #### Table of contents
 - [Quickstart](#quickstart)
 - [Build](#build)
+- [Using the emulator](#using_the_emu)
 - [Bootloader](#bootloader)
 - [Firmware](#firmware)
 - [QEMU Readme](#qemu_readme)
@@ -95,11 +96,53 @@ To execute the emulator run the below command or use the helper script `run_emul
     -device loader,addr=0XFF5E023C,data=0x80088fde,data-len=4 \
     -device loader,addr=0xff9a0000,data=0x80000218,data-len=4 \
     -hw-dtb ./binaries/board-zynqmp-zcu1285.dtb \
+    - display none \
     -m 4G -singlestep -d in_asm,nochain -s 2>&1 | tee -a log.txt
 ```
 
 #### 9. Understanding the output
-If everything went according to plan the you should see in your terminal instructions executing and a qemu window pop up. These instruction are also saved to a file log.txt. Instructions in the address range from 0-0x15000 are generally in the bootloader except in the later stages where the instructions from 0-0x8000 are from exec_in_lomem. Instructions in the range > 0x40000 are firmware instructions. If you see the emulator going to and instruction range beginning with 0xff that means an exception has occured in execution.
+If everything went according to plan the you should see in your terminal instructions executing in a terminal. These instruction are also saved to a file log.txt. Instructions in the address range from 0-0x15000 are generally in the bootloader except in the later stages where the instructions from 0-0x8000 are from exec_in_lomem. Instructions in the range > 0x40000 are firmware instructions. If you see the emulator going to and instruction range beginning with 0xff that means an exception has occured in execution.
+
+<a id="using_the_emu"><a/>
+## Using the emulator
+#### Useful info on using the emulator
+Sometimes certain instructions apear to hang the emulator. When this happens it means there is an error but you need to let the emulator run for a bit before you see this error.
+
+If you see a bunch of instructions executing that start with 0xff that means an exception has occured at the last instruction not beginning with 0xff.
+#### Changing logging settings based on your needs
+The logfile is a plaintext file that shows arm instructions (assuming you are using the run_emulator script) that are executed on the emulator. If you want to change this behaviour (add new output or remove some output) you need to change the flags in the run_emulator script. The flags you need to change involve the `-d asm,nochain` part of the execution flags of qemu. All the possible flags can be found in the table below.
+###### Table of possible debug options
+| Option | Description |
+| ---- | ---- |
+|out_asm | show generated host assembly code for each compiled TB |
+| in_asm |  show target assembly code for each compiled TB |
+| op |  show micro ops for each compiled TB |
+| op_opt | show micro ops after optimization |
+| op_ind | show micro ops before indirect lowering |
+| int | show interrupts/exceptions in short format |
+| exec | show trace before each executed TB (lots of logs) |
+| cpu | show CPU registers before entering a TB (lots of logs) |
+| fpu | include FPU registers in the 'cpu' logging |
+| mmu | log MMU-related activities |
+| pcall | x86 only: show protected mode far calls/returns/exceptions |
+| cpu_reset | show CPU state before CPU resets |
+| unimp | log unimplemented functionality |
+| guest_errors | log when the guest OS does something invalid (eg accessing a non-existent register) |
+| page | dump pages at beginning of user mode emulation |
+| nochain | do not chain compiled TBs so that exec and cpu show complete traces |
+| plugin |  output from TCG plugins|
+| strace | log every user-mode syscall|
+| tid | open a separate log file per thread; filename must contain '%d' |
+| vpu | include VPU registers in the 'cpu' logging |
+
+#### Using the other available helper scripts
+**Note**: This section is subject to change as progress is made on the emulator. We will do our best to keep it up to date.
+
+###### log_to_function_calls.sh
+This script expects a default debug log (see section above for more info) and extracts all the function calls from the log file in the format of <address>: #<function_being_called_address>.
+
+###### kill_emulator.sh 
+This scripts lets you kill the emulator if it can't be killed with sending a SIGINT (ctrl + c).
 
 ## Bootloader
 #### Getting the bootloader from the chip
@@ -169,6 +212,20 @@ The exec_in_lomem file is explained above and now we need to setup the device th
 ```c
 #define EXEC_IN_LOMEM_FILE '/home/user/s7-plc-qemu/binaries/exec_in_lomem.lo'
 ```
+
+###### Updating the exec_in_lomem file
+This fix needs to happen for an unknown reason and the fix is almost surely a bad idea. Howerver the exec_in_lomem file crashes at 0x368 at an instruction lsr r0, r0, r4 for some reason. The fix is to change that instruction to a b#380 which skips 5 instructions and continues execution. This makes the firmware continues executing. Currently we don't know why this is happening or why the jump fixes it.
+
+###### Removing broken instructions
+Just like the bootloader the firmware has mcr/mrc instructions which break the emulation. The locations for these are 0xcc and 0xd4 in the firmware.
+```shell
+offsets=(0xcc 0xd4);
+for i in ${offsets[@]}
+do
+    printf '\x00\x00\x00\x00' | dd of=bootloader seek=$((i)) bs=1 conv=notrunc
+done
+```
+
 
 
 <a id="running_the_emulator"><a/>
