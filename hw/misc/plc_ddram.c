@@ -6,7 +6,7 @@
 #include "qemu/log.h"
 #define TYPE_PLC_DDRAM "xlnx.plc_ddram"
 typedef struct PLCDDRAMState PLCDDRAMState;
-DECLARE_INSTANCE_CHECKER(PLCDDRAMState, plc_ddram, TYPE_plc_ddram)
+DECLARE_INSTANCE_CHECKER(PLCDDRAMState, plc_ddram, TYPE_PLC_DDRAM)
 
 #define REG_ID 	0x0
 #define CHIP_ID	0xBA000001
@@ -49,7 +49,7 @@ static void plc_ddram_instance_init(Object *obj)
 	PLCDDRAMState *s = plc_ddram(obj);
 
 	/* allocate memory map region */
-	memory_region_init_io(&s->iomem, obj, &plc_ddram_ops, s, TYPE_plc_ddram, 0x2c);
+	memory_region_init_io(&s->iomem, obj, &plc_ddram_ops, s, TYPE_PLC_DDRAM, 0x03ff8000);
 	sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
 
 	s->chip_id = CHIP_ID;
@@ -57,7 +57,7 @@ static void plc_ddram_instance_init(Object *obj)
 
 /* create a new type to define the info related to our device */
 static const TypeInfo plc_ddram_info = {
-	.name = TYPE_plc_ddram,
+	.name = TYPE_PLC_DDRAM,
 	.parent = TYPE_SYS_BUS_DEVICE,
 	.instance_size = sizeof(PLCDDRAMState),
 	.instance_init = plc_ddram_instance_init,
@@ -75,7 +75,7 @@ type_init(plc_ddram_register_types)
  */
 DeviceState *plc_ddram_create(hwaddr addr)
 {
-	DeviceState *dev = qdev_new(TYPE_plc_ddram);
+	DeviceState *dev = qdev_new(TYPE_PLC_DDRAM);
 	sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
 	sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
 	return dev;

@@ -7,6 +7,12 @@ config PLC_WATCHDOG
 config PLC_80280000
     bool
 
+config PLC_DDR_MEMCTL
+    bool
+
+config PLC_FL_MEMCTL
+    bool
+
 config PLC_TIMER_fffbb0ac
     bool
 

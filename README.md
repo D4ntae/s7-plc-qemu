@@ -11,6 +11,7 @@ This repository builds on the fork by adding custom QEMU devices that the Siemen
 - [Using the emulator](#using_the_emu)
 - [Bootloader](#bootloader)
 - [Firmware](#firmware)
+- [Contributing](#contributing)
 - [QEMU Readme](#qemu_readme)
 
 ## Quickstart
@@ -86,7 +87,7 @@ make -j$(nproc)
 ```
 
 #### 8. Run the emulator
-To execute the emulator run the below command or use the helper script `run_emulator.sh`. A detailed explanation can be found in the [Running the emulator](#running_the_emulator) section.
+To execute the emulator run the below command or use the helper script `run_emulator.sh`. A detailed explanation can be found in the [Using the emulator](#using_the_emulator) section.
 ```shell
 ./build/aarch64-softmmu/qemu-system-aarch64 \
     -M arm-generic-fdt \
@@ -139,7 +140,7 @@ The logfile is a plaintext file that shows arm instructions (assuming you are us
 **Note**: This section is subject to change as progress is made on the emulator. We will do our best to keep it up to date.
 
 ###### log_to_function_calls.sh
-This script expects a default debug log (see section above for more info) and extracts all the function calls from the log file in the format of <address>: #<function_being_called_address>.
+This script expects a default debug log (see section above for more info) and extracts all the function calls from the log file in the format of \<address>: \<function_being_called_address>.
 
 ###### kill_emulator.sh 
 This scripts lets you kill the emulator if it can't be killed with sending a SIGINT (ctrl + c).
@@ -226,40 +227,30 @@ do
 done
 ```
 
-
-
-<a id="running_the_emulator"><a/>
-## Running the emulator
-#### OLD README, WILL BE REMOVED SOON 
-
-Download the bootloader and firmware binaries from this link:
-<https://mega.nz/folder/Sr5D0BaK#d6AvUZgDgI69LmYE0qvVwA> and put them in
-the root directory of this repo. The update the file
-hw/misc/plc_80280000.c and change the EXEC_IN_LOMEM_FILENAME macro to
-the full path to the exec_in_lomem.fw binary.
-
-Cut bootloader size to 0x40000 beacause otherwise the memory regions
-overlap and the bootloader is not loaded. .. code-block:: shell
-
-> dd if=bootloader.rev of=bootloader.rev.cut bs=1 count=262144
-
-From the firmware file the first 64 bytes need to be cut. In the
-bootloader file on addresses 0x230, 0x23c, 0x244 4 bytes need to be
-replaced with 0.
-
-Instruction at 0x368 in exec_in_lomem.rev was changed to DE0000EA. This
-is probably bad but works for now.
-
-To run the emulator run the command .. code-block:: shell
-
-> ./build/aarch64-softmmu/qemu-system-aarch64 -M arm-generic-fdt -serial
-> mon:stdio -device
-> loader,file=./binaries/4.5.2.fw-no-start.rev,addr=0x40000,cpu-num=4,force-raw=true
-> -device loader,file=./binaries/4.5.2.boot.rev,addr=0x0 -device
-> loader,addr=0XFF5E023C,data=0x80088fde,data-len=4 -device
-> loader,addr=0xff9a0000,data=0x80000218,data-len=4 -hw-dtb
-> ./binaries/board-zynqmp-zcu1285.dtb -m 4G -singlestep -d
-> in_asm,nochain -s \> log.txt
+## Contributing
+#### Adding a new qemu device
+Development of the emulator requires the ability to add new devices to QEMU. What this means is being able to model a periferal device (timer, lcd display) or an internal component of the firmware such as the Vector Interrupt Table. Below are steps describing how to add a new device to qemu along with appropriate examples. If something is not clear from the instructions you can consult the official [Xilinx documentation](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/861569267/QEMU+Device+Model+Development#QEMUDeviceModelDevelopment-Writingyourowndevicemodel). Or [this example](https://github.com/qemu/qemu/compare/master...vppillai:qemu:theButterRobot) of adding a device to qemu (be warned there are some differences in the Xilinx version which is what we are using.)
+###### Step 1 - Writing code for the device
+We will be using the example of the IOC (Input/Output Controller) from the PLC which is required in some parts of the emulation.  All the code for devices you want to add needs to be in the `hw/misc` directory. Take a look at the `hw/misc/plc_ioc.c` file. This is the file that implements all the funcitionality needed for a device. There are code comments in this file that will explain all the structures and functions in it. For a fully functioning device you need to implement in some shape or form all the structures and functions in this file. After you did that take a look at the `hw/misc/plc_ioc.h` file. You can just copy this file with the name of name of the create function changed.
+###### Step 2 - Changing the config files
+The files you need to change are as follows. In `hw/misc/Kconfig` add a config option for your new device just like the ones for other PLC components. In `hw/arm/Kconfig` in the config ZYNQ section add a select statement for your new device. **This name needs to be equal to the one used in `hw/misc/Kconfig`**. Last you need to edit `hw/misc/meson.build` and add an entry (around line 305) that is the same as all the other plc entries but for your own device. For the when section just enter 'CONFIG_\<name used in kconfig>'. All that these config files are doing is telling the compiler to include your file in the compilation process.
+###### Step 3 - Modifying the Device Tree Binary (DTB)
+The Device Tree Binary is a file that describes to emulator how the memory map of the system works and what to access in each memory location. To edit the DTB you can you can edit the `binaries/output.dst` file. Find the section which maps all the custom PLC memory (you can search for the word plc). In that section you will see mapping that look like this:
+```
+// name_of_map@start_address
+plc_ioc@0xfffbc000 {
+	compatible = "xlnx,plc_ioc"; // this line needs to look like "xlnx,<name_used_in_type_in_c_file>"
+	reg = <0x00 0xfffbc000 0x00 0x2c 0x00>; // The second value is the start address, the fourth is the size of the region
+	phandle = <0xc3>; // this line is automatically made by the compiler, remove it in your code
+};
+```
+After you created your new section you need to compile the DTB. To do this you will need `dtc`. `dtc` Can be installed on debian based systems with the command `sudo apt install device-tree-compiler` and on arch based distros with the `sudo pacman -S dtc` command.
+To compile the DTB run the command:
+```bash
+dtc -I dts -O dtb -o board-updated.dtb output.dst
+```
+###### Step 4 - Rebuilding the emulator
+Now you can just navigate to the build directory of the emulator and run `make -j$(nproc)` to rebuild the emulator. After it has finished building you should see your device being used in the emulator when its memory region is accessed.
 
 <a id="qemu_readme"></a>
 # QEMU README
@@ -282,7 +273,7 @@ architecture ABI (e.g. the Linux PPC64 ABI) to be run on a host using a
 different architecture ABI (e.g. the Linux x86_64 ABI). This does not
 involve any hardware emulation, simply CPU and syscall emulation.
 
-QEMU aims to fit into a variety of use cases. It can be invoked directly
+QEMU aims to fit into a variety of use cases. It can be invoked directly 
 by users wishing to have full control over its behaviour and settings.
 It also aims to facilitate integration into higher level management
 layers, by providing a stable command line interface and monitor API. It

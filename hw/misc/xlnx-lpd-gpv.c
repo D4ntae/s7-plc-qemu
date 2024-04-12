@@ -811,7 +811,7 @@ static uint64_t lpd_gpv_read(void *opaque, hwaddr addr, unsigned size)
 {
     XlnxLPDGPVState *s = XLNX_LPD_GPV(opaque);
     RegisterInfo *r = &s->regs_info[addr / 4];
-
+    printf("Address: %lu\n", addr);
     if (!r->data) {
         qemu_log("%s: Decode error: read from %" HWADDR_PRIx "\n",
                  object_get_canonical_path(OBJECT(s)),

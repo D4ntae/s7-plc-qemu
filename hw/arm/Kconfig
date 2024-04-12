@@ -311,6 +311,8 @@ config ZYNQ
     select PLC_80280000
     select PLC_TIMER_fffbb0ac
     select PLC_FW_COPY
+    select PLC_DDR_MEMCTL
+    select PLC_FL_MEMCTL
 
 config ARM_V7M
     bool

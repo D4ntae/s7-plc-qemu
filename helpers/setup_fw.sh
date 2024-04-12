@@ -29,10 +29,10 @@ else
 fi
 
 echo "[i] Creating exec_in_lomem file"
-dd if=/tmp/firmware.cut.rev of=/tmp/exec_in_lomem.lo count=32768 bs=1
+dd if=/tmp/firmware.cut.rev of=/tmp/exec_in_lomem.lo count=30720 bs=1
 
-#echo "[i] Fixing the lsr instruction"
-#printf '\x04\x00\x00\xEA' | dd of=/tmp/bootloader.cut.rev seek=$((i)) bs=1 conv=notrunc
+echo "[i] Fixing the lsr instruction"
+printf '\x04\x00\x00\xEA' | dd of=/tmp/exec_in_lomem.lo seek=368 bs=1 conv=notrunc
 
 if [ $? -eq 0 ];then
     echo "[+] Completed"
