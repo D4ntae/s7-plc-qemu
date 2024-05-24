@@ -33,6 +33,8 @@ static uint64_t plc_ioc_read(void *opaque, hwaddr addr, unsigned int size)
 	default:
 		return 0x00000100;
 	}
+    qemu_log_mask(LOG_GUEST_ERROR, "%s: read: addr=0x%x\n",
+                  __func__, (int)addr);
 }
 
 /* This function defines the behaviour for when memory is written to your device. 

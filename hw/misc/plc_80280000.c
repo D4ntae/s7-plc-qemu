@@ -9,6 +9,7 @@
 #include "hw/boards.h"
 #include "qemu/log.h"
 #include "qemu/error-report.h"
+#include "monitor/monitor.h"
 
 #define TYPE_PLC_80280000 "xlnx.plc_80280000"
 typedef struct PLC80280000State PLC80280000State;

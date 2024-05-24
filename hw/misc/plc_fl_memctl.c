@@ -16,6 +16,8 @@ struct FlMemctlState {
 };
 
 static uint64_t fl_read(void *opaque, hwaddr addr, unsigned int size) {
+    qemu_log_mask(LOG_GUEST_ERROR, "%s: read: addr=0x%x\n",
+                  __func__, (int)addr);
     return 0x0;
 }
 

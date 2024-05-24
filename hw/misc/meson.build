@@ -309,6 +309,9 @@ softmmu_ss.add(when: 'CONFIG_PLC_TIMER_fffbb0ac', if_true: files('plc_timer_fffb
 softmmu_ss.add(when: 'CONFIG_PLC_FW_COPY', if_true: files('plc_fw_copy.c'))
 softmmu_ss.add(when: 'CONFIG_PLC_DDR_MEMCTL', if_true: files('plc_ddr_memctl.c'))
 softmmu_ss.add(when: 'CONFIG_PLC_FL_MEMCTL', if_true: files('plc_fl_memctl.c'))
+softmmu_ss.add(when: 'CONFIG_PLC_DDRAM', if_true: files('plc_ddram.c'))
+softmmu_ss.add(when: 'CONFIG_PLC_BOOL_HELPER', if_true: files('plc_bool_helper.c'))
+softmmu_ss.add(when: 'CONFIG_PLC_DEBUG_DEVICE', if_true: files('plc_debug_device.c'))
 
 # HPPA devices
 softmmu_ss.add(when: 'CONFIG_LASI', if_true: files('lasi.c'))

@@ -16,6 +16,8 @@ struct DdrMemctlState {
 };
 
 static uint64_t ddr_read(void *opaque, hwaddr addr, unsigned int size) {
+    qemu_log_mask(LOG_GUEST_ERROR, "%s: read: addr=0x%x\n",
+                  __func__, (int)addr);
     switch (addr) {
         case 0xc:
             return 0;

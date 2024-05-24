@@ -966,14 +966,11 @@
 			dma = <0x1b>;
 			interrupts = <0x0f>;
 			num-ss-bits = <0x02>;
-			reg = <0x00 0xff0f0000 0x1000 0x00 0xa0000000 0x8000000>;
+			reg = <0x00 0xff0f0000 0x1000 0x00 0xc0000000 0x8000000>;
 			speed-hz = <0x989680>;
 			xlnx,fb-clk = <0x01>;
 			xlnx,qspi-clk-freq-hz = <0xbebc200>;
 			xlnx,qspi-mode = <0x02>;
-			qemu,lqspi-size = <0x8000000>;
-			qemu,lqspi-src = <0xa0000000>;
-			qemu,lqspi-dst = <0xc0000000>;
 			phandle = <0xae>;
 
 			qspi_flash_lcs_lb@0 {
@@ -1281,7 +1278,7 @@
 			phandle = <0xc4>;
 		};
 
-		plc_watchdog@0xfffbb128 {
+		plc_watchdog@0xfffbc000 {
 			compatible = "xlnx,plc_watchdog";
 			reg = <0x00 0xfffbb128 0x00 0x100 0x00>;
 			phandle = <0xc5>;
@@ -1293,34 +1290,29 @@
 			phandle = <0xc6>;
 		};
 
-		plc_ddram@0x8000 {
-			compatible = "xlnx,plc_ddram";
-			reg = <0x00 0x8000 0x00 0x3ff8000 0x00>;
-			phandle = <0xc7>;
-		};
-
 		plc_fw_copy@0xffff6900 {
 			compatible = "xlnx,plc_fw_copy";
 			reg = <0x00 0xffff6900 0x00 0x100 0x00>;
 			phandle = <0xc8>;
 		};
 
-		plc_ddr_memctl@0xfff52000 {
-			compatible = "xlnx,plc_ddr_memctl";
-			reg = <0x00 0xfff52000 0x00 0x100 0x00>;
+		plc_bool_helper@0xfffa0000 {
+			compatible = "xlnx,plc_bool_helper";
+			reg = <0x00 0xfffa0000 0x00 0x4000 0x00>;
 			phandle = <0xc9>;
 		};
 
-		plc_fl_memctl@0xfffbd000 {
-			compatible = "xlnx,plc_fl_memctl";
-			reg = <0x00 0xfffbd000 0x00 0x1000 0x00>;
+		plc_ddr_memctl@0xff52000 {
+			compatible = "xlnx,plc_ddr_memctl";
+			reg = <0x00 0xff52000 0x00 0xff 0x00>;
+			phandle = <0xca>;
 		};
 
 		ocm_ctrl@0xFF960000 {
 			compatible = "xlnx,zynqmp-ocmc";
 			memsize = <0x40000>;
 			reg = <0x00 0xff960000 0x1000>;
-			phandle = <0xca>;
+			phandle = <0xcb>;
 		};
 
 		adma0mr {
@@ -1328,7 +1320,7 @@
 			#size-cells = <0x01>;
 			compatible = "simple-bus";
 			ranges;
-			phandle = <0xcb>;
+			phandle = <0xcc>;
 		};
 
 		adma0mattr {
@@ -1346,7 +1338,7 @@
 			#stream-id-cells = <0x01>;
 			dma = <0x1e>;
 			memattr = <0x47>;
-			phandle = <0xcc>;
+			phandle = <0xcd>;
 		};
 
 		adma1mr {
@@ -1354,7 +1346,7 @@
 			#size-cells = <0x01>;
 			compatible = "simple-bus";
 			ranges;
-			phandle = <0xcd>;
+			phandle = <0xce>;
 		};
 
 		adma1mattr {
@@ -1372,7 +1364,7 @@
 			#stream-id-cells = <0x01>;
 			dma = <0x1e>;
 			memattr = <0x48>;
-			phandle = <0xce>;
+			phandle = <0xcf>;
 		};
 
 		adma2mr {
@@ -1380,7 +1372,7 @@
 			#size-cells = <0x01>;
 			compatible = "simple-bus";
 			ranges;
-			phandle = <0xcf>;
+			phandle = <0xd0>;
 		};
 
 		adma2mattr {
@@ -1398,7 +1390,7 @@
 			#stream-id-cells = <0x01>;
 			dma = <0x1e>;
 			memattr = <0x49>;
-			phandle = <0xd0>;
+			phandle = <0xd1>;
 		};
 
 		adma3mr {
@@ -1406,7 +1398,7 @@
 			#size-cells = <0x01>;
 			compatible = "simple-bus";
 			ranges;
-			phandle = <0xd1>;
+			phandle = <0xd2>;
 		};
 
 		adma3mattr {
@@ -1424,7 +1416,7 @@
 			#stream-id-cells = <0x01>;
 			dma = <0x1e>;
 			memattr = <0x4a>;
-			phandle = <0xd2>;
+			phandle = <0xd3>;
 		};
 
 		adma4mr {
@@ -1432,7 +1424,7 @@
 			#size-cells = <0x01>;
 			compatible = "simple-bus";
 			ranges;
-			phandle = <0xd3>;
+			phandle = <0xd4>;
 		};
 
 		adma4mattr {
@@ -1450,7 +1442,7 @@
 			#stream-id-cells = <0x01>;
 			dma = <0x1e>;
 			memattr = <0x4b>;
-			phandle = <0xd4>;
+			phandle = <0xd5>;
 		};
 
 		adma5mr {
@@ -1458,7 +1450,7 @@
 			#size-cells = <0x01>;
 			compatible = "simple-bus";
 			ranges;
-			phandle = <0xd5>;
+			phandle = <0xd6>;
 		};
 
 		adma5mattr {
@@ -1476,7 +1468,7 @@
 			#stream-id-cells = <0x01>;
 			dma = <0x1e>;
 			memattr = <0x4c>;
-			phandle = <0xd6>;
+			phandle = <0xd7>;
 		};
 
 		adma6mr {
@@ -1484,7 +1476,7 @@
 			#size-cells = <0x01>;
 			compatible = "simple-bus";
 			ranges;
-			phandle = <0xd7>;
+			phandle = <0xd8>;
 		};
 
 		adma6mattr {
@@ -1502,7 +1494,7 @@
 			#stream-id-cells = <0x01>;
 			dma = <0x1e>;
 			memattr = <0x4d>;
-			phandle = <0xd8>;
+			phandle = <0xd9>;
 		};
 
 		adma7mr {
@@ -1510,7 +1502,7 @@
 			#size-cells = <0x01>;
 			compatible = "simple-bus";
 			ranges;
-			phandle = <0xd9>;
+			phandle = <0xda>;
 		};
 
 		adma7mattr {
@@ -1528,7 +1520,7 @@
 			#stream-id-cells = <0x01>;
 			dma = <0x1e>;
 			memattr = <0x4e>;
-			phandle = <0xda>;
+			phandle = <0xdb>;
 		};
 
 		crl@0xFF5E0000 {
@@ -1546,7 +1538,7 @@
 			reg = <0x00 0xffa50000 0x68>;
 			gpio-controller;
 			#gpio-cells = <0x02>;
-			phandle = <0xdb>;
+			phandle = <0xdc>;
 		};
 
 		zynqmp_sysmon_ps@0xFFA50800 {
@@ -1554,7 +1546,7 @@
 			reg = <0x00 0xffa50800 0x200>;
 			gpio-controller;
 			#gpio-cells = <0x02>;
-			phandle = <0xdc>;
+			phandle = <0xdd>;
 		};
 
 		zynqmp_sysmon_pl@0xFFA50C00 {
@@ -1562,26 +1554,26 @@
 			reg = <0x00 0xffa50c00 0x200>;
 			gpio-controller;
 			#gpio-cells = <0x02>;
-			phandle = <0xdd>;
+			phandle = <0xde>;
 		};
 
 		zynqmp_rtc@0xFFA60000 {
 			compatible = "xlnx-zynmp,rtc";
 			interrupts = <0x0b 0x1a 0x1b>;
 			reg = <0x00 0xffa60000 0x100>;
-			phandle = <0xde>;
+			phandle = <0xdf>;
 		};
 
 		dummy_gpio@0 {
 			gpio-controller;
 			#gpio-cells = <0x01>;
-			phandle = <0xdf>;
+			phandle = <0xe0>;
 		};
 
 		cxtsgen@0xFF250000 {
 			compatible = "arm,generic-timer";
 			reg = <0x00 0xff260000 0x1000>;
-			phandle = <0xe0>;
+			phandle = <0xe1>;
 		};
 
 		ps_reset@0 {
@@ -1593,7 +1585,7 @@
 			compatible = "xlnx,nwl-pcie-attrib";
 			reg = <0x00 0xfd480000 0x1000>;
 			interrupts = <0x76>;
-			phandle = <0xe1>;
+			phandle = <0xe2>;
 		};
 
 		pcie_main@0xFD0E0000 {
@@ -1602,13 +1594,13 @@
 			interrupts = <0x74 0x72 0x73>;
 			dma = <0x50>;
 			memattr = <0x52>;
-			phandle = <0xe2>;
+			phandle = <0xe3>;
 		};
 
 		zynqmp_boot@0 {
 			compatible = "xlnx,zynqmp-boot";
 			dma = <0x1a>;
-			phandle = <0xe3>;
+			phandle = <0xe4>;
 		};
 
 		rp_cosim_mio_in {
@@ -1634,7 +1626,7 @@
 			reg = <0x00 0xffc80000 0x800>;
 			dma = <0x1b>;
 			memattr = <0x53>;
-			phandle = <0xe4>;
+			phandle = <0xe5>;
 		};
 
 		csu_sha@0xFFCA2000 {
@@ -1669,7 +1661,7 @@
 			efuse = <0x57>;
 			reg = <0x00 0xffca4000 0x1c>;
 			puf-acc-err-sink = <0x58>;
-			phandle = <0xe5>;
+			phandle = <0xe6>;
 		};
 
 		csu_efuse@0xFFCC0000 {
@@ -1677,7 +1669,7 @@
 			zynqmp-aes-key-sink-efuses = <0x56>;
 			reg = <0x00 0xffcc0000 0x2000>;
 			efuse = <0x57>;
-			phandle = <0xe6>;
+			phandle = <0xe7>;
 
 			xlnx_efuse@0 {
 				doc-ignore = <0x01>;
@@ -1692,13 +1684,13 @@
 			compatible = "xlnx,bbram-ctrl";
 			zynqmp-aes-key-sink-bbram = <0x56>;
 			reg = <0x00 0xffcd0000 0x100>;
-			phandle = <0xe7>;
+			phandle = <0xe8>;
 		};
 
 		csu_rsa@0xFFCE0000 {
 			compatible = "zynqmp,csu-rsa";
 			reg = <0x00 0xffce0000 0x64>;
-			phandle = <0xe8>;
+			phandle = <0xe9>;
 		};
 
 		rpu0_for_main_bus {
@@ -1720,18 +1712,18 @@
 			compatible = "xlnx,ps7-i2c-1.00.a\0cdns,i2c-r1p10";
 			interrupts = <0x11>;
 			reg = <0x00 0xff020000 0x1000>;
-			phandle = <0xe9>;
+			phandle = <0xea>;
 
 			tca6416@20 {
 				compatible = "ti,tca6416";
 				reg = <0x20>;
-				phandle = <0xea>;
+				phandle = <0xeb>;
 			};
 
 			tca6416@21 {
 				compatible = "ti,tca6416";
 				reg = <0x21>;
-				phandle = <0xeb>;
+				phandle = <0xec>;
 			};
 
 			i2cswitch@75 {
@@ -1941,7 +1933,7 @@
 			compatible = "xlnx,ps7-i2c-1.00.a\0cdns,i2c-r1p10";
 			interrupts = <0x12>;
 			reg = <0x00 0xff030000 0x1000>;
-			phandle = <0xec>;
+			phandle = <0xed>;
 
 			i2cswitch@74 {
 				#address-cells = <0x01>;
@@ -1988,7 +1980,7 @@
 						synth-rates = <0x66ff300 0x3b9aca00 0x632ea00 0x11b3dc40 0x00>;
 						output-synth-sel = <0x00 0x00 0x02 0x01 0x01 0x01 0x01 0x03 0x00 0x01>;
 						output-rates = <0x19bfcc0 0x00 0x18cba80 0x7735940 0x5f5e100 0x5f5e100 0x7735940 0x46cf710 0x00 0x1fca055>;
-						phandle = <0xed>;
+						phandle = <0xee>;
 					};
 				};
 
@@ -2001,7 +1993,7 @@
 						compatible = "silabs,si57x";
 						reg = <0x5d>;
 						temperature-stability = <0x32>;
-						phandle = <0xee>;
+						phandle = <0xef>;
 					};
 				};
 
@@ -2014,7 +2006,7 @@
 						compatible = "silabs,si57x";
 						reg = <0x5d>;
 						temperature-stability = <0x32>;
-						phandle = <0xef>;
+						phandle = <0xf0>;
 					};
 				};
 
@@ -2026,7 +2018,7 @@
 					clock-generator4@69 {
 						compatible = "i2c-dev-dummy";
 						reg = <0x69>;
-						phandle = <0xf0>;
+						phandle = <0xf1>;
 					};
 				};
 			};
@@ -2141,7 +2133,7 @@
 			xlnx,lmb-dwidth = <0x20>;
 			xlnx,mask = <0xffffff80>;
 			xlnx,use-io-bus = <0x01>;
-			phandle = <0xf1>;
+			phandle = <0xf2>;
 
 			dummy_pmu_intc@0 {
 				#interrupt-cells = <0x02>;
@@ -2168,7 +2160,7 @@
 				xlnx,gpo-init = <0x00>;
 				xlnx,gpo-size = <0x20>;
 				xlnx,use-gpo = <0x01>;
-				phandle = <0xf2>;
+				phandle = <0xf3>;
 			};
 
 			pmu_gpo@18 {
@@ -2179,7 +2171,7 @@
 				xlnx,gpo-init = <0x00>;
 				xlnx,gpo-size = <0x20>;
 				xlnx,use-gpo = <0x01>;
-				phandle = <0xf3>;
+				phandle = <0xf4>;
 			};
 
 			pmu_gpo@1c {
@@ -2190,7 +2182,7 @@
 				xlnx,gpo-init = <0x00>;
 				xlnx,gpo-size = <0x20>;
 				xlnx,use-gpo = <0x01>;
-				phandle = <0xf4>;
+				phandle = <0xf5>;
 			};
 
 			pmu_gpi@20 {
@@ -2203,7 +2195,7 @@
 				xlnx,gpi-interrupt = <0x01>;
 				xlnx,gpi-size = <0x20>;
 				xlnx,use-gpi = <0x01>;
-				phandle = <0xf5>;
+				phandle = <0xf6>;
 			};
 
 			pmu_gpi@24 {
@@ -2217,7 +2209,7 @@
 				xlnx,gpi-size = <0x20>;
 				xlnx,use-gpi = <0x01>;
 				gpios = <0x5c 0x00 0x00 0x5c 0x00 0x00 0x5c 0x00 0x00 0x5c 0x00 0x00 0x5c 0x00 0x00 0x5c 0x00 0x00 0x5c 0x00 0x00 0x5c 0x00 0x00 0x5c 0x00 0x00 0x5c 0x00 0x00 0x5d 0x1a 0x00 0x5d 0x1b 0x00 0x5d 0x1c 0x00 0x5d 0x1d 0x00 0x5d 0x1e 0x00 0x5d 0x1f 0x00>;
-				phandle = <0xf6>;
+				phandle = <0xf7>;
 			};
 
 			pmu_gpi@28 {
@@ -2230,7 +2222,7 @@
 				xlnx,gpi-interrupt = <0x01>;
 				xlnx,gpi-size = <0x20>;
 				xlnx,use-gpi = <0x01>;
-				phandle = <0xf7>;
+				phandle = <0xf8>;
 			};
 
 			pmu_gpi@2c {
@@ -2243,7 +2235,7 @@
 				xlnx,gpi-interrupt = <0x01>;
 				xlnx,gpi-size = <0x20>;
 				xlnx,use-gpi = <0x01>;
-				phandle = <0xf8>;
+				phandle = <0xf9>;
 			};
 
 			pmu_pit@40 {
@@ -2260,7 +2252,7 @@
 				gpio-names = "ps_config\0ps_hit_in";
 				gpio-controller;
 				#gpio-cells = <0x01>;
-				phandle = <0xf9>;
+				phandle = <0xfa>;
 			};
 
 			pmu_pit@50 {
@@ -2307,7 +2299,7 @@
 				xlnx,use-pit = <0x01>;
 				gpio-controller;
 				#gpio-cells = <0x01>;
-				phandle = <0xfa>;
+				phandle = <0xfb>;
 			};
 
 			pmu_uart@00 {
@@ -2325,7 +2317,7 @@
 				xlnx,uart-use-parity = <0x00>;
 				xlnx,use-uart-rx = <0x00>;
 				xlnx,use-uart-tx = <0x00>;
-				phandle = <0xfb>;
+				phandle = <0xfc>;
 			};
 
 			dummy_pmu_gpio {
@@ -2341,7 +2333,7 @@
 			reg = <0x00 0xffd60000 0x00 0x1000 0x00>;
 			gpio-controller;
 			num-gpios = <0x07>;
-			phandle = <0xfc>;
+			phandle = <0xfd>;
 		};
 	};
 
@@ -2583,7 +2575,7 @@
 		ranges;
 		container = <0x1a>;
 		priority = <0xffffffff>;
-		phandle = <0xfd>;
+		phandle = <0xfe>;
 
 		interrupt-controller@0xFD3FF000 {
 			#address-cells = <0x00>;
@@ -2960,7 +2952,7 @@
 			attrs-debug = <0x01>;
 			attrs-secure = <0x00>;
 			attrs-requester-id = <0x00>;
-			phandle = <0xfe>;
+			phandle = <0xff>;
 		};
 
 		loader_write_cpu0_0x1003F@0xFD0809E0 {
@@ -2972,7 +2964,7 @@
 			attrs-debug = <0x01>;
 			attrs-secure = <0x00>;
 			attrs-requester-id = <0x00>;
-			phandle = <0xff>;
+			phandle = <0x100>;
 		};
 
 		loader_write_cpu0_0x1003F@0xFD080BE0 {
@@ -2984,7 +2976,7 @@
 			attrs-debug = <0x01>;
 			attrs-secure = <0x00>;
 			attrs-requester-id = <0x00>;
-			phandle = <0x100>;
+			phandle = <0x101>;
 		};
 
 		loader_write_cpu0_0x1003F@0xFD080DE0 {
@@ -2996,7 +2988,7 @@
 			attrs-debug = <0x01>;
 			attrs-secure = <0x00>;
 			attrs-requester-id = <0x00>;
-			phandle = <0x101>;
+			phandle = <0x102>;
 		};
 	};
 
@@ -3036,7 +3028,7 @@
 		#size-cells = <0x02>;
 		#priority-cells = <0x01>;
 		compatible = "qemu:system-memory";
-		phandle = <0x102>;
+		phandle = <0x103>;
 
 		downstream@0 {
 			compatible = "qemu:memory-region";
@@ -3049,7 +3041,7 @@
 		compatible = "qemu:memory-transaction-attr";
 		secure = <0x01>;
 		requester-id = <0x40>;
-		phandle = <0x103>;
+		phandle = <0x104>;
 	};
 
 	apu0_s_ma {
@@ -3212,7 +3204,7 @@
 		container = <0x1a>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0xffdc0000 0x20000>;
-		phandle = <0x104>;
+		phandle = <0x105>;
 	};
 
 	tcm_ram_r5_0_A@0x00000 {
@@ -3220,7 +3212,7 @@
 		container = <0x59>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0x00 0x10000>;
-		phandle = <0x105>;
+		phandle = <0x106>;
 	};
 
 	tcm_ram_r5_0_B@0x20000 {
@@ -3228,7 +3220,7 @@
 		container = <0x59>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0x20000 0x10000>;
-		phandle = <0x106>;
+		phandle = <0x107>;
 	};
 
 	tcm_ram_r5_1_A@0x00000 {
@@ -3252,7 +3244,7 @@
 		container = <0x59>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0x40000 0x8000>;
-		phandle = <0x107>;
+		phandle = <0x108>;
 	};
 
 	dcache_rpu0@0x50000 {
@@ -3260,7 +3252,7 @@
 		container = <0x59>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0x50000 0x8000>;
-		phandle = <0x108>;
+		phandle = <0x109>;
 	};
 
 	icache_rpu1@0x30000 {
@@ -3284,7 +3276,7 @@
 		container = <0x1a>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0xff990000 0x1000>;
-		phandle = <0x109>;
+		phandle = <0x10a>;
 	};
 
 	ocm_ram@0 {
@@ -3297,7 +3289,7 @@
 		container = <0x29>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0x00 0x10000>;
-		phandle = <0x10a>;
+		phandle = <0x10b>;
 	};
 
 	ocm_ram_bank_1@0x10000 {
@@ -3305,7 +3297,7 @@
 		container = <0x29>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0x10000 0x10000>;
-		phandle = <0x10b>;
+		phandle = <0x10c>;
 	};
 
 	ocm_ram_bank_2@0x20000 {
@@ -3313,7 +3305,7 @@
 		container = <0x29>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0x20000 0x10000>;
-		phandle = <0x10c>;
+		phandle = <0x10d>;
 	};
 
 	ocm_ram_bank_3@0x30000 {
@@ -3321,15 +3313,6 @@
 		container = <0x29>;
 		qemu,ram = <0x01>;
 		reg = <0x00 0x30000 0x10000>;
-		phandle = <0x10d>;
-	};
-
-	lqspi {
-		device_type = "memory";
-		compatible = "qemu:memory-region";
-		container = <0x1a>;
-		qemu,ram = <0x01>;
-		reg = <0x00 0xc0000000 0x8000000>;
 		phandle = <0x10e>;
 	};
 
@@ -3544,6 +3527,7 @@
 		plc_timer_fffbb0ac = "/amba@0/plc_timer_fffbb0ac@0xfffbb0a0";
 		plc_ddram = "/amba@0/plc_ddram@0x8000";
 		plc_fw_copy = "/amba@0/plc_fw_copy@0xffff6900";
+		plc_bool_helper = "/amba@0/plc_bool_helper@0xfffa0000";
 		plc_ddr_memctl = "/amba@0/plc_ddr_memctl@0xff52000";
 		ocm_ctrl0 = "/amba@0/ocm_ctrl@0xFF960000";
 		adma0_mr = "/amba@0/adma0mr";
@@ -3688,7 +3672,6 @@
 		ocm_ram_bank_1 = "/ocm_ram_bank_1@0x10000";
 		ocm_ram_bank_2 = "/ocm_ram_bank_2@0x20000";
 		ocm_ram_bank_3 = "/ocm_ram_bank_3@0x30000";
-		lqspi_0 = "/lqspi";
 		tcm_cache_rpu0 = "/tcm_cache_rpu0@0";
 		atcm1_for_rpu0 = "/tcm_cache_rpu0@0/atcm1_for_rpu0";
 		btcm1_for_rpu0 = "/tcm_cache_rpu0@0/btcm1_for_rpu0";

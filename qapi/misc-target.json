@@ -282,6 +282,13 @@
   'if': 'TARGET_ARM' }
 
 ##
+# @arm-registers:
+#
+# Since: 9.0
+##
+{ 'command': 'arm-registers', 'if': 'TARGET_ARM' }
+
+##
 # @query-gic-capabilities:
 #
 # This command is ARM-only. It will return a list of GICCapability

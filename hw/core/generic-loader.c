@@ -44,6 +44,7 @@
 #include "hw/core/generic-loader.h"
 #include "exec/memory.h"
 #include "qemu/error-report.h"
+#include "monitor/monitor.h"
 
 #define CPU_NONE 0xFFFFFFFF
 

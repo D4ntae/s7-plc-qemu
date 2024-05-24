@@ -31,6 +31,7 @@
 #include "qapi/qmp/qerror.h"
 #include "qapi/qmp/qdict.h"
 #include "qom/qom-qobject.h"
+#include "target/arm/cpu.h"
 
 static GICCapability *gic_cap_new(int version)
 {
@@ -227,4 +228,14 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
     object_unref(obj);
 
     return expansion_info;
+}
+
+void qmp_arm_registers(Error **errp) {
+    ARMCPU *arm_cpu = ARM_CPU(first_cpu);
+
+    for (int i = 0; i < 16; i++) {
+        uint32_t reg_value = arm_cpu->env.regs[i];
+        printf("R%d: 0x%08x\n", i, reg_value);
+    }
+
 }

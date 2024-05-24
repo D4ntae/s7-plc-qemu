@@ -10,6 +10,15 @@ config PLC_80280000
 config PLC_DDR_MEMCTL
     bool
 
+config PLC_DDRAM
+    bool
+
+config PLC_BOOL_HELPER
+    bool
+
+config PLC_DEBUG_DEVICE
+    bool
+
 config PLC_FL_MEMCTL
     bool
 

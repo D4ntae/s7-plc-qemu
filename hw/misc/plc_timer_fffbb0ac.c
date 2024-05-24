@@ -35,6 +35,9 @@ static uint64_t plc_timer_fffbb0ac_read(void *opaque, hwaddr addr, unsigned int 
         ticks_left = 0;
     }
 
+    qemu_log_mask(LOG_GUEST_ERROR, "%s: read: addr=0x%x\n",
+                  __func__, (int)addr);
+
 	switch (addr) {
         case 0x0:  
             // ticks_left (decrementing value from timer_tick_count to 0)

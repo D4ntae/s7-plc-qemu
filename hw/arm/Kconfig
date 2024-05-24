@@ -313,6 +313,9 @@ config ZYNQ
     select PLC_FW_COPY
     select PLC_DDR_MEMCTL
     select PLC_FL_MEMCTL
+    select PLC_DDRAM
+    select PLC_BOOL_HELPER
+    select PLC_DEBUG_DEVICE
 
 config ARM_V7M
     bool

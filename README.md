@@ -235,7 +235,7 @@ We will be using the example of the IOC (Input/Output Controller) from the PLC w
 ###### Step 2 - Changing the config files
 The files you need to change are as follows. In `hw/misc/Kconfig` add a config option for your new device just like the ones for other PLC components. In `hw/arm/Kconfig` in the config ZYNQ section add a select statement for your new device. **This name needs to be equal to the one used in `hw/misc/Kconfig`**. Last you need to edit `hw/misc/meson.build` and add an entry (around line 305) that is the same as all the other plc entries but for your own device. For the when section just enter 'CONFIG_\<name used in kconfig>'. All that these config files are doing is telling the compiler to include your file in the compilation process.
 ###### Step 3 - Modifying the Device Tree Binary (DTB)
-The Device Tree Binary is a file that describes to emulator how the memory map of the system works and what to access in each memory location. To edit the DTB you can you can edit the `binaries/output.dst` file. Find the section which maps all the custom PLC memory (you can search for the word plc). In that section you will see mapping that look like this:
+The Device Tree Binary is a file that describes to emulator how the memory map of the system works and what to access in each memory location. To edit the DTB you need to clone the repository at this link: [qemu-devicetrees](https://github.com/Xilinx/qemu-devicetrees) and change the file `zynqmp-iou.dtsi`. Look through that file and you will see sections that look like this:
 ```
 // name_of_map@start_address
 plc_ioc@0xfffbc000 {
@@ -244,11 +244,8 @@ plc_ioc@0xfffbc000 {
 	phandle = <0xc3>; // this line is automatically made by the compiler, remove it in your code
 };
 ```
-After you created your new section you need to compile the DTB. To do this you will need `dtc`. `dtc` Can be installed on debian based systems with the command `sudo apt install device-tree-compiler` and on arch based distros with the `sudo pacman -S dtc` command.
-To compile the DTB run the command:
-```bash
-dtc -I dts -O dtb -o board-updated.dtb output.dst
-```
+Add a section just like it for your new device.
+After you created your new section you need to compile the DTB. To do this you will need `dtc`. `dtc` Can be installed on debian based systems with the command `sudo apt install device-tree-compiler` and on arch based distros with the `sudo pacman -S dtc` command. After you have `dtc` you can run make in the root of the repository and it will start the compilation process for you DTB. After it is done compiling (there is no output just wait for the make command to finish) you can find your new DTB at the path `LATEST/SINGLE_ARCH/board-zynqmp-zcu1285.dtb`. After that just move that file into the emulator binaries directory under the name `board-updated.dtb`.
 ###### Step 4 - Rebuilding the emulator
 Now you can just navigate to the build directory of the emulator and run `make -j$(nproc)` to rebuild the emulator. After it has finished building you should see your device being used in the emulator when its memory region is accessed.
 
